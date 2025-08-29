@@ -7,6 +7,7 @@ from tensorflow import keras
 # Load the trained model and scaler
 model = keras.models.load_model('width_prediction_model.keras')
 scaler = joblib.load('scaler.pkl')
+scaler_y = joblib.load('scaler_y.pkl')
 st.title("Width Prediction App")
 # Choose input method
 input_mode = st.radio("เลือกวิธีการกรอกข้อมูล", ["กรอกข้อมูลเอง", "อัพโหลดไฟล์ Excel"])
@@ -19,7 +20,7 @@ if input_mode == "อัพโหลดไฟล์ Excel":
         if st.button("Predict Widths from File"):
             input_data_scaled = scaler.transform(input_df)
             predictions_scaled = model.predict(input_data_scaled)
-            predictions = scaler.inverse_transform(predictions_scaled)
+            predictions = scaler_y.inverse_transform(predictions_scaled)
             input_df['Predicted Width'] = predictions
             st.write("Predictions:")
             st.dataframe(input_df)
@@ -40,7 +41,7 @@ else:
         input_data = np.array([[temtar, actwidthin, rmextw, psspos_more, pesposin, pesposout, indh]])
         input_data_scaled = scaler.transform(input_data)
         prediction_scaled = model.predict(input_data_scaled)
-        prediction = scaler.inverse_transform(prediction_scaled)
+        prediction = scaler_y.inverse_transform(prediction_scaled)
         st.success(f"Predicted Width: {prediction[0][0]:.2f}")
     else:
         st.write("กรุณากรอกข้อมูลเพื่อทำการทำนาย")
