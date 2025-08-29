@@ -4,6 +4,7 @@ import pandas as pd
 import tensorflow as tf
 import joblib
 from tensorflow import keras
+
 # Load the trained model and scaler
 model = keras.models.load_model('width_prediction_model.keras')
 scaler = joblib.load('scaler.pkl')
@@ -17,13 +18,20 @@ if input_mode == "อัพโหลดไฟล์ Excel":
         input_df = pd.read_excel(uploaded_file)
         st.write("Uploaded Data:")
         st.dataframe(input_df)
-        if st.button("Predict Widths from File"):
+        required_cols = ['TEMTAR','ActWidthIn','RMEXTW','PSSPOS_More','PESPOSIn','PESPOSOut','INDH']
+
+        # ตรวจว่ามีครบไหม
+        if not set(required_cols).issubset(input_df.columns):
+            st.error(f"ไฟล์ Excel ต้องมี columns: {required_cols}")
+        else:
+            input_df = input_df[required_cols]  # จัดเรียง column ให้ตรงกับ scaler
             input_data_scaled = scaler.transform(input_df)
             predictions_scaled = model.predict(input_data_scaled)
             predictions = scaler_y.inverse_transform(predictions_scaled)
             input_df['Predicted Width'] = predictions
             st.write("Predictions:")
             st.dataframe(input_df)
+
     else:
         st.write("กรุณาอัพโหลดไฟล์ Excel เพื่อทำการทำนาย")
 else:
