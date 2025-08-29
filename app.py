@@ -18,7 +18,8 @@ if input_mode == "อัพโหลดไฟล์ Excel":
         input_df = pd.read_excel(uploaded_file)
         st.write("Uploaded Data:")
         st.dataframe(input_df)
-        required_cols = ['TEMTAR','ActWidthIn','RMEXTW','PSSPOS_More','PESPOSIn','PESPOSOut','INDH']
+        # required_cols = ['TEMTAR','ActWidthIn','RMEXTW','PSSPOS_More','PESPOSIn','PESPOSOut','INDH']
+        required_cols = ['RMEXTW','TEMTAR','ActWidthIn','PSSPOS_More','PESPOSIn','PESPOSOut','INDH']
         st.write("Columns in scaler:", scaler.feature_names_in_)
         st.write("Columns in uploaded file:", input_df.columns.tolist())
 
