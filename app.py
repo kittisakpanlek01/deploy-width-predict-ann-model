@@ -20,8 +20,8 @@ if input_mode == "อัพโหลดไฟล์ Excel":
         st.dataframe(input_df)
         # required_cols = ['TEMTAR','ActWidthIn','RMEXTW','PSSPOS_More','PESPOSIn','PESPOSOut','INDH']
         required_cols = ['RMEXTW','TEMTAR','ActWidthIn','PSSPOS_More','PESPOSIn','PESPOSOut','INDH']
-        st.write("Columns in scaler:", scaler.feature_names_in_)
-        st.write("Columns in uploaded file:", input_df.columns.tolist())
+        # st.write("Columns in scaler:", scaler.feature_names_in_)
+        # st.write("Columns in uploaded file:", input_df.columns.tolist())
 
         # ตรวจว่ามีครบไหม
         if not set(required_cols).issubset(input_df.columns):
